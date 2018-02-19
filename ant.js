@@ -8,8 +8,8 @@ class Ant {
 
     this.sensitivity = 0.9;
     this.friction = 0.95;
-    this.visionRadius = 100;
-    this.numberOfEyes = 10;
+    this.visionRadius = 150;
+    this.numberOfEyes = 20;
 
     this.sensors = [];
     let angle = 360 / this.numberOfEyes;
