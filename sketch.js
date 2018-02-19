@@ -4,10 +4,10 @@ let food = [];
 
 function setup() {
   angleMode(DEGREES);
-  canvas = createCanvas(600, 400);
+  canvas = createCanvas(800, 600);
   canvas.parent('canvas-container');
 
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 20; i++) {
     let x = random(width);
     let y = random(height);
     food.push(new Food(x, y));

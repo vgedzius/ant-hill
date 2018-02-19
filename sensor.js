@@ -10,7 +10,6 @@ class Sensor {
     let p = proximity.filter((item) => {
       let finish = this.start + this.angle;
       let angle = angleFromVector(item);
-      console.log(angle);
       return angle >= this.start && angle < finish;
     });
 

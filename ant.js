@@ -9,7 +9,7 @@ class Ant {
     this.sensitivity = 0.9;
     this.friction = 0.95;
     this.visionRadius = 100;
-    this.numberOfEyes = 3;
+    this.numberOfEyes = 10;
 
     this.sensors = [];
     let angle = 360 / this.numberOfEyes;
@@ -81,10 +81,6 @@ class Ant {
 
     // vision
     this.sensors.map((sensor) => sensor.show());
-
-    this.proximity.map((item) => {
-      line(0, 0, item.x, item.y);
-    });
 
     pop();
     return this;
