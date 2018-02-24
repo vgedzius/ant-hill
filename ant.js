@@ -1,17 +1,18 @@
 class Ant {
-  constructor(x, y) {
-    this.position = createVector(x, y);
-    this.velocity = createVector(0, 0);
-    this.acceleration = createVector(0, 0);
-
+  constructor() {
     this.sensitivity = 0.01;
     this.friction = 0.97;
     this.visionRadius = 150;
     this.hitRadius = 10;
     this.numberOfEyes = 10;
     this.showSensors = false;
-    this.startingHitPoints = 2000;
+    this.startingHitPoints = 1500;
+
+    this.position = createVector(random(width), random(height));
+    this.velocity = createVector(0, 0);
+    this.acceleration = createVector(0, 0);
     this.hitPoints = this.startingHitPoints;
+    this.timeAlive = 0;
 
     this.sensors = [];
     let angle = 360 / this.numberOfEyes;
@@ -29,6 +30,22 @@ class Ant {
       this.eat().see().move();
     }
     this.hitPoints--;
+    this.timeAlive++;
+
+    return this;
+  }
+
+  clone() {
+    let x = random(width);
+    let y = random(height);
+    let ant = new Ant(x, y);
+    ant.brain = this.brain.clone();
+    
+    return ant;
+  }
+
+  mutate() {
+    this.brain.mutate();
 
     return this;
   }
