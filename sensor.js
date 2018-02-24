@@ -20,7 +20,8 @@ class Sensor {
         closest = d;
       }
     });
-    this.heat = map(closest, 0, this.lenght, 1, 0);
+    this.heat = map(closest, 0, this.lenght, 2, 0);
+    return this.heat;
   }
 
   show() {

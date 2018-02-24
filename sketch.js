@@ -2,8 +2,8 @@ let canvas;
 let ants = [];
 let food = [];
 
-let numberOfAnts = 3;
-let numberOfFood = 15;
+let numberOfAnts = 20;
+let numberOfFood = 30;
 
 function setup() {
   angleMode(DEGREES);
@@ -17,7 +17,9 @@ function setup() {
   }
 
   for (let i = 0; i < numberOfAnts; i++) {
-    ants.push(new Ant());
+    let x = random(width);
+    let y = random(height);
+    ants.push(new Ant(x, y));
   }
 
   ant = new Ant();
@@ -26,9 +28,6 @@ function setup() {
 function draw() {
   background(0);
 
-  food.map((pelet) => pelet.show());
-  ants.map((ant) => {
-    let f = p5.Vector.random2D();
-    ant.applyForce(f).see().move().show();
-  });
+  food.forEach((pelet) => pelet.show());
+  ants.forEach((ant) => ant.update().show());
 }
