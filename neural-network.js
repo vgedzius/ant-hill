@@ -55,7 +55,7 @@ class NeuralNetwork {
     this.weights = this.weights.map((layer) => {
       return layer.map((neurons) => {
         return neurons.map((weight) => {
-          let random = Math.random() * 1000;
+          let random = Math.random() * 100;
 
           if (random < 2) {
             return weight * -1;
