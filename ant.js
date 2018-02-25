@@ -2,11 +2,11 @@ class Ant {
   constructor() {
     this.sensitivity = 0.01;
     this.friction = 0.97;
-    this.visionRadius = 150;
+    this.visionRadius = 300;
     this.hitRadius = 10;
     this.numberOfEyes = 10;
     this.showSensors = false;
-    this.startingHitPoints = 1500;
+    this.startingHitPoints = 1000;
 
     this.position = createVector(random(width), random(height));
     this.velocity = createVector(0, 0);
@@ -25,9 +25,11 @@ class Ant {
     this.brain = new NeuralNetwork([this.numberOfEyes, this.numberOfEyes * 2, this.numberOfEyes * 2, 4]);
   }
 
-  update() {
+  update(manager) {
     if (this.hitPoints > 0) {
-      this.eat().see().move();
+      this.eat(manager)
+          .see(manager)
+          .move();
     }
     this.hitPoints--;
     this.timeAlive++;
@@ -123,9 +125,9 @@ class Ant {
     return this;
   }
 
-  see() {
+  see(manager) {
     this.proximity = [];
-    food.map((pelet) => {
+    manager.food.map((pelet) => {
       let d = p5.Vector.sub(pelet.position, this.position);
       if (d.mag() < this.visionRadius && d.mag()) {
         this.proximity.push(d);
@@ -151,8 +153,8 @@ class Ant {
     return this;
   }
 
-  eat() {
-    food = food.filter((pelet) => {
+  eat(manager) {
+    manager.food = manager.food.filter((pelet) => {
       let d = dist(this.position.x, this.position.y, pelet.position.x, pelet.position.y);
       if (d <= this.hitRadius + pelet.hitRadius) {
         this.hitPoints += pelet.energy;
