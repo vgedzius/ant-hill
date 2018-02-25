@@ -52,6 +52,10 @@ class Ant {
     return this;
   }
 
+  fitness() {
+    return this.timeAlive;
+  }
+
   move() {
     // this.acceleration = p5.Vector.random2D();
     this.velocity.add(this.acceleration);

@@ -3,6 +3,8 @@ class Manager {
     this.numberOfAnts = 20;
     this.numberOfFood = 15;
     this.generation = 1;
+    this.hiScore = 0;
+    this.previousBest = 0;
 
     this.food = [];
     this.ants = [];
@@ -40,12 +42,29 @@ class Manager {
 
   displayStats() {
     fill(255);
-    text('Generation: ' + this.generation, 10, 20);
+
+    let txt = `Generation: ${this.generation}\n`;
+    txt += `Population Size: ${this.ants.length}\n`;
+    txt += `Current Best: ${this.currentBest().fitness()}\n`;
+    txt += `Previous Best: ${this.previousBest}\n`;
+    txt += `High Score: ${this.hiScore}\n`;
+    text(txt, 2, 2, 200, 150);
+
     return this;
   }
 
+  currentBest() {
+    return this.ants.reduce((a, b) => a.fitness() > b.fitness() ? a : b);
+  }
+
   newGeneration() {
-    this.ants = this.ants.sort((a, b) => a.timeAlive - b.timeAlive)
+    const best = this.currentBest();
+    this.previousBest = best.fitness();
+    if (best.fitness() > this.hiScore) {
+      this.hiScore = best.fitness();
+    }
+
+    this.ants = this.ants.sort((a, b) => a.fitness() - b.fitness())
       .map((ant, index) => {
         if (index >= this.numberOfAnts / 2) {
           let r = [];
