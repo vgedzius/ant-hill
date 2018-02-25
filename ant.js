@@ -4,7 +4,7 @@ class Ant {
     this.friction = 0.97;
     this.visionRadius = 300;
     this.hitRadius = 10;
-    this.numberOfEyes = 10;
+    this.numberOfEyes = floor(random(2,21));
     this.showSensors = false;
     this.startingHitPoints = 1000;
 
@@ -15,14 +15,23 @@ class Ant {
     this.timeAlive = 0;
 
     this.sensors = [];
+    this.proximity = [];
+  }
+
+  init() {
     let angle = 360 / this.numberOfEyes;
     for (let i = 0; i < this.numberOfEyes; i++) {
       let sensor = new Sensor(i * angle, angle, this.visionRadius);
       this.sensors.push(sensor);
     }
-    this.proximity = [];
 
-    this.brain = new NeuralNetwork([this.numberOfEyes, this.numberOfEyes * 2, this.numberOfEyes * 2, 4]);
+    this.brain = new NeuralNetwork([
+      this.numberOfEyes,
+      this.numberOfEyes * 2,
+      this.numberOfEyes * 2, 4
+    ]);
+
+    return this;
   }
 
   update(manager) {
@@ -41,6 +50,8 @@ class Ant {
     let x = random(width);
     let y = random(height);
     let ant = new Ant(x, y);
+    ant.numberOfEyes = this.numberOfEyes;
+    ant.init();
     ant.brain = this.brain.clone();
     
     return ant;
@@ -110,16 +121,22 @@ class Ant {
     push();
     translate(this.position.x, this.position.y);
 
-    // ant body
-    stroke(255);
+    // body
+    noStroke();
     if (this.hitPoints > 0) {
-      let c = map(this.hitPoints, 0, this.startingHitPoints, 0, 255);
-      fill(255, c);
+      let alpha = map(this.hitPoints, 0, this.startingHitPoints, 0, 1);
+      let hue = round(map(this.numberOfEyes, 2, 20, 0, 360));
+      let c = color(`hsla(${hue}, 100%, 50%, ${alpha})`);
+
+      fill(c);
     } else {
       fill(255, 0, 0);
     }
     
     ellipse(0, 0, this.hitRadius * 2);
+
+    // fill(0);
+    // text(this.numberOfEyes, -5, 4);
 
     // vision
     if (this.showSensors) {

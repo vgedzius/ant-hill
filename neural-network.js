@@ -84,17 +84,4 @@ class NeuralNetwork {
 
     return copy;
   }
-
-  calculateFitness(data) {
-    let error = 0;
-    data.forEach((i) => {
-
-      let output = this.feedForward(i.inputs);
-      error += Math.abs(i.target - output[0]);
-    });
-
-    this.fitness = 1 / error;
-
-    return this;
-  }
 }

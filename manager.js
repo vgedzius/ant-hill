@@ -1,7 +1,7 @@
 class Manager {
   constructor() {
-    this.numberOfAnts = 20;
-    this.numberOfFood = 15;
+    this.numberOfAnts = 30;
+    this.numberOfFood = 30;
     this.generation = 1;
     this.hiScore = 0;
     this.previousBest = 0;
@@ -16,7 +16,7 @@ class Manager {
     }
 
     for (let i = 0; i < this.numberOfAnts; i++) {
-      this.ants.push(new Ant());
+      this.ants.push(new Ant().init());
     }
 
     return this;
