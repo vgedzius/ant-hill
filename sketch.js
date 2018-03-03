@@ -1,17 +1,21 @@
 let canvas;
-let manager;
+let world;
+let config;
+
+function preload() {
+  config = loadJSON('config.json');
+}
 
 function setup() {
   angleMode(DEGREES);
-  //colorMode(HSL);
   canvas = createCanvas(800, 600);
   canvas.parent('canvas-container');
 
-  manager = new Manager().init();
+  world = new World().init();
 }
 
 function draw() {
   background(0);
 
-  manager.update();
+  world.update();
 }

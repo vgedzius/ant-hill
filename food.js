@@ -1,8 +1,8 @@
 class Food {
   constructor() {
     this.position = createVector(random(width), random(height));
-    this.hitRadius = 5;
-    this.energy = 200;
+    this.hitRadius = config.food.hitRadius;
+    this.energy = config.food.energy;
   }
 
   show() {

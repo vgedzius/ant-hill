@@ -1,24 +1,27 @@
 class Ant {
   constructor() {
-    this.sensitivity = 0.01;
-    this.friction = 0.97;
-    this.visionRadius = 300;
-    this.hitRadius = 10;
-    this.numberOfEyes = floor(random(2,21));
-    this.showSensors = false;
-    this.startingHitPoints = 1000;
+    this.sensitivity        = config.ant.sensitivity;
+    this.friction           = config.ant.friction;
+    this.visionRadius       = config.ant.visionRadius;
+    this.hitRadius          = config.ant.hitRadius;
+    this.showSensors        = config.ant.showSensors;
+    this.startingHitPoints  = config.ant.startingHitPoints;
+    this.numberOfEyes       = config.ant.numberOfEyes;
 
-    this.position = createVector(random(width), random(height));
-    this.velocity = createVector(0, 0);
-    this.acceleration = createVector(0, 0);
-    this.hitPoints = this.startingHitPoints;
-    this.timeAlive = 0;
-
-    this.sensors = [];
-    this.proximity = [];
+    if (this.numberOfEyes.constructor == Array) {
+      this.numberOfEyes = floor(random(this.numberOfEyes[0], this.numberOfEyes[1]));
+    }
   }
 
   init() {
+    this.position     = createVector(random(width), random(height));
+    this.velocity     = createVector(0, 0);
+    this.acceleration = createVector(0, 0);
+    this.hitPoints    = this.startingHitPoints;
+    this.timeAlive    = 0;
+    this.sensors      = [];
+    this.proximity    = [];
+
     let angle = 360 / this.numberOfEyes;
     for (let i = 0; i < this.numberOfEyes; i++) {
       let sensor = new Sensor(i * angle, angle, this.visionRadius);
@@ -123,9 +126,17 @@ class Ant {
 
     // body
     noStroke();
+    
     if (this.hitPoints > 0) {
+      let hue;
       let alpha = map(this.hitPoints, 0, this.startingHitPoints, 0, 1);
-      let hue = round(map(this.numberOfEyes, 2, 20, 0, 360));
+      if (config.ant.numberOfEyes.constructor == Array) {
+        let min = config.ant.numberOfEyes[0];
+        let max = config.ant.numberOfEyes[1];
+        hue = round(map(this.numberOfEyes, min, max, 0, 360));
+      } else {
+        hue = round(map(this.numberOfEyes, 2, 20, 0, 360));
+      }
       let c = color(`hsla(${hue}, 100%, 50%, ${alpha})`);
 
       fill(c);

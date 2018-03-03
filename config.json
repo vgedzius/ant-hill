@@ -1,0 +1,19 @@
+{
+  "world": {
+    "numberOfFood": 30,
+    "numberOfAnts": 2
+  },
+  "ant": {
+    "sensitivity": 0.01,
+    "friction": 0.97,
+    "visionRadius": 300,
+    "hitRadius": 10,
+    "numberOfEyes": [2, 20],
+    "showSensors": true,
+    "startingHitPoints": 1000
+  },
+  "food": {
+    "hitRadius": 5,
+    "energy": 200
+  }
+}

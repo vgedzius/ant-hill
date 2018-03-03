@@ -1,16 +1,16 @@
-class Manager {
+class World {
   constructor() {
-    this.numberOfAnts = 30;
-    this.numberOfFood = 30;
-    this.generation = 1;
-    this.hiScore = 0;
-    this.previousBest = 0;
-
-    this.food = [];
-    this.ants = [];
+    this.numberOfAnts = config.world.numberOfAnts;
+    this.numberOfFood = config.world.numberOfFood;
   }
 
   init() {
+    this.generation   = 1;
+    this.hiScore      = 0;
+    this.previousBest = 0;
+    this.food         = [];
+    this.ants         = [];
+
     for (let i = 0; i < this.numberOfFood; i++) {
       this.food.push(new Food());
     }
