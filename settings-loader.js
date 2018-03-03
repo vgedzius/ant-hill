@@ -55,9 +55,9 @@ class SettingsLoader {
       });
     
     select('#foodHitRadius')
-      .value(config.ant.hitRadius)
+      .value(config.food.hitRadius)
       .input(function () {
-        config.ant.hitRadius = this.value();
+        config.food.hitRadius = this.value();
       });
     
     select('#energy')
