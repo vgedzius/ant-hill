@@ -133,7 +133,7 @@ class Ant {
       }
 
       let hue;
-      let alpha = map(this.hitPoints, 0, this.startingHitPoints, 0, 1);
+      let alpha = map(this.hitPoints, 0, this.startingHitPoints, 0.1, 1);
       if (config.ant.numberOfEyes.constructor == Array) {
         let min = config.ant.numberOfEyes[0];
         let max = config.ant.numberOfEyes[1];
