@@ -1,10 +1,8 @@
 class World {
-  constructor() {
+  init() {
     this.numberOfAnts = config.world.numberOfAnts;
     this.numberOfFood = config.world.numberOfFood;
-  }
 
-  init() {
     this.generation   = 1;
     this.hiScore      = 0;
     this.previousBest = 0;
@@ -27,8 +25,8 @@ class World {
       this.food.push(new Food());
     }
 
-    this.food.forEach((pelet) => pelet.show());
     this.ants.forEach((ant) => ant.update(this).show());
+    this.food.forEach((pelet) => pelet.show());
     this.displayStats();
     
     if (this.alive().length == 0) {

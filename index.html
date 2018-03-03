@@ -4,10 +4,11 @@
   <title>Ant Hill</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js" integrity="sha256-GDuv15eqQpLqWvLkRnd+EvvsHLngEUnerY5BDSYfLuM="
     crossorigin="anonymous"></script>
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js" integrity="sha256-y2fVmZ3KhIiAHagP+4Ky9c9zqrm2IdBFHSxKXS99Ms4="
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.dom.min.js" integrity="sha256-y2fVmZ3KhIiAHagP+4Ky9c9zqrm2IdBFHSxKXS99Ms4="
     crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js" integrity="sha256-3MBnAjsJqfdx9rfzwJ1kkAKMeaYcbJkOOGxUX9LgToc="
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/addons/p5.sound.min.js" integrity="sha256-3MBnAjsJqfdx9rfzwJ1kkAKMeaYcbJkOOGxUX9LgToc="
     crossorigin="anonymous"></script> -->
+  <script src="settings-loader.js"></script>
   <script src="utils.js"></script>
   <script src="neural-network.js"></script>
   <script src="ant.js"></script>
@@ -20,6 +21,98 @@
 
 <body>
   <div id="canvas-container"></div>
+
+  <!-- <form> -->
+    <fieldset>
+      <legend>World</legend>
+
+      <div>
+        <label>
+          Number of Ants:
+          <input type="number" id="numberOfAnts">
+        </label>
+      </div>
+      
+      <div>
+        <label>
+          Number of Food:
+          <input type="number" id="numberOfFood">
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Ant</legend>
+
+      <div>
+        <label>
+          Sensitivity:
+          <input type="text" id="sensitivity">
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Friction:
+          <input type="text" id="friction">
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Vision Radius:
+          <input type="number" id="visionRadius">
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Radius:
+          <input type="number" id="antHitRadius">
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Number of Eyes:
+          <input type="number" id="numberOfEyes">
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Show sensors:
+          <input type="checkbox" id="showSensors">
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Hitpoints:
+          <input type="number" id="startingHitPoints">
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Food</legend>
+
+      <div>
+        <label>
+          Radius:
+          <input type="number" id="foodHitRadius">
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Energy:
+          <input type="number" id="energy">
+        </label>
+      </div>
+    </fieldset>
+    <button id="restartBtn">Restart</button>
+  <!-- </form> -->
 </body>
 
 </html>

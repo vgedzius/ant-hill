@@ -4,7 +4,6 @@ class Ant {
     this.friction           = config.ant.friction;
     this.visionRadius       = config.ant.visionRadius;
     this.hitRadius          = config.ant.hitRadius;
-    this.showSensors        = config.ant.showSensors;
     this.startingHitPoints  = config.ant.startingHitPoints;
     this.numberOfEyes       = config.ant.numberOfEyes;
 
@@ -30,17 +29,18 @@ class Ant {
 
     this.brain = new NeuralNetwork([
       this.numberOfEyes,
-      this.numberOfEyes * 2,
-      this.numberOfEyes * 2, 4
+      this.numberOfEyes + 2,
+      this.numberOfEyes + 2,
+      4
     ]);
 
     return this;
   }
 
-  update(manager) {
+  update(world) {
     if (this.hitPoints > 0) {
-      this.eat(manager)
-          .see(manager)
+      this.eat(world)
+          .see(world)
           .move();
     }
     this.hitPoints--;
@@ -128,6 +128,10 @@ class Ant {
     noStroke();
     
     if (this.hitPoints > 0) {
+      if (config.ant.showSensors) {
+        this.sensors.forEach((sensor) => sensor.show());
+      }
+
       let hue;
       let alpha = map(this.hitPoints, 0, this.startingHitPoints, 0, 1);
       if (config.ant.numberOfEyes.constructor == Array) {
@@ -138,28 +142,19 @@ class Ant {
         hue = round(map(this.numberOfEyes, 2, 20, 0, 360));
       }
       let c = color(`hsla(${hue}, 100%, 50%, ${alpha})`);
-
       fill(c);
     } else {
       fill(255, 0, 0);
     }
-    
     ellipse(0, 0, this.hitRadius * 2);
 
-    // fill(0);
-    // text(this.numberOfEyes, -5, 4);
-
-    // vision
-    if (this.showSensors) {
-      this.sensors.forEach((sensor) => sensor.show());
-    }
     pop();
     return this;
   }
 
-  see(manager) {
+  see(world) {
     this.proximity = [];
-    manager.food.map((pelet) => {
+    world.food.map((pelet) => {
       let d = p5.Vector.sub(pelet.position, this.position);
       if (d.mag() < this.visionRadius && d.mag()) {
         this.proximity.push(d);
@@ -185,8 +180,8 @@ class Ant {
     return this;
   }
 
-  eat(manager) {
-    manager.food = manager.food.filter((pelet) => {
+  eat(world) {
+    world.food = world.food.filter((pelet) => {
       let d = dist(this.position.x, this.position.y, pelet.position.x, pelet.position.y);
       if (d <= this.hitRadius + pelet.hitRadius) {
         this.hitPoints += pelet.energy;

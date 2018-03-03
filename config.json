@@ -8,7 +8,7 @@
     "friction": 0.97,
     "visionRadius": 300,
     "hitRadius": 10,
-    "numberOfEyes": [2, 20],
+    "numberOfEyes": 15,
     "showSensors": false,
     "startingHitPoints": 1000
   },
