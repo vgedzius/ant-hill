@@ -18,8 +18,11 @@ class Ant {
     this.acceleration = createVector(0, 0);
     this.hitPoints    = this.startingHitPoints;
     this.timeAlive    = 0;
+    this.digestion    = 0.0;
+    this.foodEaten    = 0;
+    this.poisonEaten  = 0
     this.sensors      = [];
-    this.proximity    = [];
+    this.proximity = [];
 
     let angle = 360 / this.numberOfEyes;
     for (let i = 0; i < this.numberOfEyes; i++) {
@@ -27,23 +30,36 @@ class Ant {
       this.sensors.push(sensor);
     }
 
-    this.brain = new NeuralNetwork([
-      this.numberOfEyes,
-      this.numberOfEyes + 2,
-      this.numberOfEyes + 2,
-      4
-    ]);
+    // this.brain = new NeuralNetwork([
+    //   this.numberOfEyes,
+    //   this.numberOfEyes + 2,
+    //   this.numberOfEyes + 2,
+    //   4
+    // ]);
+
+    const env = {
+      getNumStates: () => this.numberOfEyes * 2,
+      getMaxNumActions: () => 4
+    };
+    const spec = {
+      alpha: 0.01
+    };
+    this.brain = new RL.DQNAgent(env, spec); 
 
     return this;
   }
 
   update(world) {
+    this.digestion = 0;
     if (this.hitPoints > 0) {
       this.eat(world)
           .see(world)
           .move();
     }
-    this.hitPoints--;
+
+    this.brain.learn(this.digestion);
+
+    //this.hitPoints--;
     this.timeAlive++;
 
     return this;
@@ -74,13 +90,10 @@ class Ant {
     // this.acceleration = p5.Vector.random2D();
     this.velocity.add(this.acceleration);
     this.acceleration = createVector(0, 0);
-
     this.detectEdges();
-
     this.velocity.mult(this.friction);
-
     this.position.add(this.velocity);
-
+    
     return this;
   }
 
@@ -154,37 +167,48 @@ class Ant {
 
   see(world) {
     this.proximity = [];
-    world.food.map((pelet) => {
-      let d = p5.Vector.sub(pelet.position, this.position);
+    world.items.map((pelet) => {
+      const d = p5.Vector.sub(pelet.position, this.position);
       if (d.mag() < this.visionRadius && d.mag()) {
-        this.proximity.push(d);
+        this.proximity.push({ d, pelet });
       }
     });
 
-    let heatMap = this.sensors.map((sensor) => sensor.scan(this.proximity));
+    let heatMap = this.sensors
+      .map((sensor) => sensor.scan(this.proximity))
+      .reduce((a, b) => a.concat(b), []);
 
-    let a = this.brain.feedForward(heatMap);
-    if (Math.round(Math.abs(a[0]))) {
-      this.up();
-    }
-    if (Math.round(Math.abs(a[1]))) {
-      this.right();
-    }
-    if (Math.round(Math.abs(a[2]))) {
-      this.down();
-    }
-    if (Math.round(Math.abs(a[3]))) {
-      this.left();
+    switch (this.brain.act(heatMap)) {
+      case 0:
+        this.up();
+        break;
+      case 1:
+        this.right();
+        break;
+      case 2:
+        this.down();
+        break;
+      case 3:
+        this.left();
+        break;
     }
 
     return this;
   }
 
   eat(world) {
-    world.food = world.food.filter((pelet) => {
+    world.items = world.items.filter((pelet) => {
       let d = dist(this.position.x, this.position.y, pelet.position.x, pelet.position.y);
       if (d <= this.hitRadius + pelet.hitRadius) {
-        this.hitPoints += pelet.energy;
+        this.digestion += pelet.type;
+        switch (pelet.type) {
+          case Item.FOOD:
+            this.foodEaten++;
+            break;
+          case Item.POISON:
+            this.poisonEaten++;
+            break;
+        }
         return false;
       }
       return true;

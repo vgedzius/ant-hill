@@ -6,11 +6,11 @@ class World {
     this.generation   = 1;
     this.hiScore      = 0;
     this.previousBest = 0;
-    this.food         = [];
+    this.items        = [];
     this.ants         = [];
 
     for (let i = 0; i < this.numberOfFood; i++) {
-      this.food.push(new Food());
+      this.items.push(new Item());
     }
 
     for (let i = 0; i < this.numberOfAnts; i++) {
@@ -21,13 +21,13 @@ class World {
   }
 
   update() {
-    if (this.food.length < this.numberOfFood) {
-      this.food.push(new Food());
-    }
-
     this.ants.forEach((ant) => ant.update(this).show());
-    this.food.forEach((pelet) => pelet.show());
+    this.items.forEach((pelet) => pelet.show());
     this.displayStats();
+
+    if (this.items.length < this.numberOfFood) {
+      this.items.push(new Item());
+    }
     
     if (this.alive().length == 0) {
       this.newGeneration();
@@ -41,11 +41,8 @@ class World {
   displayStats() {
     fill(255);
 
-    let txt = `Generation: ${this.generation}\n`;
-    txt += `Population Size: ${this.ants.length}\n`;
-    txt += `Current Best: ${this.currentBest().fitness()}\n`;
-    txt += `Previous Best: ${this.previousBest}\n`;
-    txt += `High Score: ${this.hiScore}\n`;
+    let txt = `Food: ${this.ants[0].foodEaten}\n`;
+    txt += `Poison: ${this.ants[0].poisonEaten}\n`;
     text(txt, 2, 2, 200, 150);
 
     return this;
