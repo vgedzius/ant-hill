@@ -3,6 +3,12 @@ class Item {
     this.position = createVector(random(width), random(height));
     this.hitRadius = config.food.hitRadius;
     this.type = floor(random([-1, 1]));
+    this.age = 0;
+  }
+
+  update() {
+    this.age++;
+    return this;
   }
 
   show() {

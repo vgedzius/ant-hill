@@ -9,9 +9,9 @@ class World {
     this.items        = [];
     this.ants         = [];
 
-    for (let i = 0; i < this.numberOfFood; i++) {
-      this.items.push(new Item());
-    }
+    // for (let i = 0; i < this.numberOfFood; i++) {
+    //   this.items.push(new Item());
+    // }
 
     for (let i = 0; i < this.numberOfAnts; i++) {
       this.ants.push(new Ant().init());
@@ -22,10 +22,16 @@ class World {
 
   update() {
     this.ants.forEach((ant) => ant.update(this).show());
-    this.items.forEach((pelet) => pelet.show());
+    this.items.forEach((pelet) => pelet.update().show());
     this.displayStats();
 
-    if (this.items.length < this.numberOfFood) {
+    this.items = this.items.filter((pelet) => {
+      let r = random(1);
+      return !(pelet.age > 2000 && r < 0.001);
+    });
+
+    let addFood = random(1);
+    if (this.items.length < this.numberOfFood && addFood < 0.1) {
       this.items.push(new Item());
     }
     

@@ -17,7 +17,6 @@ function setup() {
 
   select('#restartBtn').mousePressed(() => {
     world.init();
-    return false;
   });
 }
 
