@@ -91,8 +91,8 @@ class Ant {
     this.velocity.add(this.acceleration);
     this.acceleration = createVector(0, 0);
     this.detectEdges();
-    this.velocity.mult(this.friction);
     this.position.add(this.velocity);
+    this.velocity.mult(this.friction);
     
     return this;
   }
@@ -118,11 +118,11 @@ class Ant {
   }
 
   detectEdges() {
-    if (this.position.x < 0 || this.position.x > width) {
+    if (this.position.x < this.hitRadius || this.position.x > width - this.hitRadius) {
       this.velocity.x *= -1;
     }
 
-    if (this.position.y < 0 || this.position.y > height) {
+    if (this.position.y < this.hitRadius || this.position.y > height - this.hitRadius) {
       this.velocity.y *= -1;
     }
     return this;
