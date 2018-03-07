@@ -21,9 +21,8 @@ class World {
   }
 
   update() {
-    this.ants.forEach((ant) => ant.update(this).show());
-    this.items.forEach((pelet) => pelet.update().show());
-    this.displayStats();
+    this.ants.forEach((ant) => ant.update(this));
+    this.items.forEach((pelet) => pelet.update());
 
     this.items = this.items.filter((pelet) => {
       let r = random(1);
@@ -38,6 +37,15 @@ class World {
     if (this.alive().length == 0) {
       this.newGeneration();
     }
+
+    return this;
+  }
+
+  show() {
+    this.ants.forEach((ant) => ant.show());
+    this.items.forEach((pelet) => pelet.show());
+    this.displayStats();
+    return this;
   }
 
   alive() {

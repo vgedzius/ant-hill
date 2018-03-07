@@ -23,5 +23,9 @@ function setup() {
 function draw() {
   background(0);
 
-  world.update();
+  for (let i = 0; i < config.world.speed; i++) {
+    world.update();
+  }
+
+  world.show();
 }
